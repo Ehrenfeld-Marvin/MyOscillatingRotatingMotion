@@ -21,12 +21,13 @@ dynamicFvMesh	dynamicMotionSolverFvMesh;
 //motionSolverLibs ("libfvMotionSolvers.so");
 libs
 (
- "libmyMotions.so"
+ "libTrimMotions.so"
+ "libdynamicMeshTrim.so"
 );
 
-motionSolver	solidBody;
+motionSolver	solidBodyTrim;
 cellZone	Circle;
-solidBodyMotionFunction MyoscillatingRotatingMotion;
+solidBodyMotionFunctionTrim MyoscillatingRotatingMotion;
 	MyoscillatingRotatingMotionCoeffs
 	{
 	origin          (0 0 0);

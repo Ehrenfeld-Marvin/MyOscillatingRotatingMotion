@@ -1,0 +1,1 @@
+../solidBodyMotionFunctionTrimNew.C

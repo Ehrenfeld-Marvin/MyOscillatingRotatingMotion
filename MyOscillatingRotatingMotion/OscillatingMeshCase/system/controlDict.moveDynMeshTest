@@ -19,7 +19,8 @@ FoamFile
 
 libs
 (
- "libmyMotions.so"
+ "libTrimMotions.so"
+ "libdynamicMeshTrim.so"
 );
 
 application     moveDynamicMesh;

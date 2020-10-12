@@ -1,0 +1,5 @@
+solidBodyMotionFunctionTrim.C
+solidBodyMotionFunctionTrimNew.C
+solidBodyMotionSolverTrim.C
+
+LIB = $(FOAM_USER_LIBBIN)/libdynamicMeshTrim

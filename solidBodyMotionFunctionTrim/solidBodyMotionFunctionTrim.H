@@ -6,7 +6,6 @@
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
     Copyright (C) 2011-2016 OpenFOAM Foundation
-    Copyright (C) 2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -24,109 +23,124 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Class
-    Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion
+Namespace
+    Foam::solidBodyMotionFunctions
 
 Description
-    SolidBodyMotionFvMesh 6DoF motion function. Oscillating rotation.
+    Namespace for solid-body motions
+
+
+Class
+    Foam::solidBodyMotionFunctionTrim
+
+Description
+    Base class for defining solid-body motions
 
 SourceFiles
-    MyoscillatingRotatingMotion.C
+    solidBodyMotionFunctionTrim.C
+    dynamicFvMeshNew.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef MyoscillatingRotatingMotion_H
-#define MyoscillatingRotatingMotion_H
+#ifndef solidBodyMotionFunctionTrim_H
+#define solidBodyMotionFunctionTrim_H
 
-#include "solidBodyMotionFunction.H"
-#include "primitiveFields.H"
-#include "point.H"
+#include "Time.H"
+#include "dictionary.H"
+#include "septernion.H"
+#include "autoPtr.H"
+#include "runTimeSelectionTables.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-namespace solidBodyMotionFunctions
-{
 
 /*---------------------------------------------------------------------------*\
-                          Class MyoscillatingRotatingMotion Declaration
+ s                  Class solidBodyMotionFunctionTrim Declaration
 \*---------------------------------------------------------------------------*/
 
-class MyoscillatingRotatingMotion
-:
-    public solidBodyMotionFunction
+class solidBodyMotionFunctionTrim
 {
-    // Private Data
+protected:
 
-        //- Centre of gravity
-        point origin_;
+    // Protected data
 
-        //- Amplitude
-        vector amplitude_;
+        dictionary SBMFCoeffs_;
+        const Time& time_;
 
-        //- Radial velocity
-        scalar omega_;
-        
-//	vector Ampli;
+
+private:
 
     // Private Member Functions
 
         //- No copy construct
-        MyoscillatingRotatingMotion(const MyoscillatingRotatingMotion&) = delete;
+        solidBodyMotionFunctionTrim(const solidBodyMotionFunctionTrim&) = delete;
 
         //- No copy assignment
-        void operator=(const MyoscillatingRotatingMotion&) = delete;
+        void operator=(const solidBodyMotionFunctionTrim&) = delete;
 
 
 public:
 
     //- Runtime type information
-    TypeName("MyoscillatingRotatingMotion");
+    TypeName("solidBodyMotionFunctionTrim");
+
+
+    // Declare run-time constructor selection table
+
+        declareRunTimeSelectionTable
+        (
+            autoPtr,
+            solidBodyMotionFunctionTrim,
+            dictionary,
+            (const dictionary& SBMFCoeffs, const Time& runTime),
+            (SBMFCoeffs, runTime)
+        );
 
 
     // Constructors
 
-        //- Construct from components
-        MyoscillatingRotatingMotion
+        //- Construct from the SBMFCoeffs dictionary and Time
+        solidBodyMotionFunctionTrim
         (
             const dictionary& SBMFCoeffs,
             const Time& runTime
         );
 
         //- Construct and return a clone
-        virtual autoPtr<solidBodyMotionFunction> clone() const
-        {
-            return autoPtr<solidBodyMotionFunction>
-            (
-                new MyoscillatingRotatingMotion
-                (
-                    SBMFCoeffs_,
-                    time_
-                )
-            );
-        }
+        virtual autoPtr<solidBodyMotionFunctionTrim> clone() const = 0;
+
+
+    // Selectors
+
+        //- Select constructed from the SBMFCoeffs dictionary and Time
+        static autoPtr<solidBodyMotionFunctionTrim> New
+        (
+            const dictionary& SBMFCoeffs,
+            const Time& runTime
+        );
 
 
     //- Destructor
-    virtual ~MyoscillatingRotatingMotion() = default;
+    virtual ~solidBodyMotionFunctionTrim();
 
 
     // Member Functions
 
-	void Amplitude() const;
-
         //- Return the solid-body motion transformation septernion
-        virtual septernion transformation() const;
+        virtual septernion transformation() const = 0;
 
         //- Update properties from given dictionary
-        virtual bool read(const dictionary& SBMFCoeffs);
+        virtual bool read(const dictionary& SBMFCoeffs) = 0;
+
+        //- Write in dictionary format
+        virtual void writeData(Ostream&) const;
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-} // End namespace solidBodyMotionFunctions
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

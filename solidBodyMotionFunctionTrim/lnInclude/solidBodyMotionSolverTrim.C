@@ -1,0 +1,1 @@
+../solidBodyMotionSolverTrim.C

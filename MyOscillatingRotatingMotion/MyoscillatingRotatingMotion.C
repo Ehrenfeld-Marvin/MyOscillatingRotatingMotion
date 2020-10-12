@@ -40,7 +40,7 @@ namespace solidBodyMotionFunctions
     defineTypeNameAndDebug(MyoscillatingRotatingMotion, 0);
     addToRunTimeSelectionTable
     (
-        solidBodyMotionFunction,
+        solidBodyMotionFunctionTrim,
         MyoscillatingRotatingMotion,
         dictionary
     );
@@ -57,16 +57,17 @@ MyoscillatingRotatingMotion
     const Time& runTime
 )
 :
-    solidBodyMotionFunction(SBMFCoeffs, runTime)
+    solidBodyMotionFunctionTrim(SBMFCoeffs, runTime)
 {
     read(SBMFCoeffs);
+//    scalar Ampli = 0.1;
 }
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
 
-//#include "Amplitude_Member_Function.H"
+#include "Amplitude_Member_Function.H"
 
 Foam::septernion
 Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::
@@ -75,13 +76,16 @@ transformation() const
 
 
 #include "amplitude.H"			
-//	Amplitude();			//Funktion wird aufgerufen amplitude zu ändern -> ERROR: assignment of read-only location
+	Amplitude();			//Funktion wird aufgerufen amplitude zu ändern -> ERROR: assignment of read-only location
 	
     scalar t = time_.value();
 
 //    vector eulerAngles = amplitude_*sin(omega_*t);			//Funktion für Amplitude();
-    vector eulerAngles = ampli*sin(omega_*t);				//Funktion für #include "amplitude.H"
+    vector eulerAngles = Ampli*ampli*sin(omega_*t);				//Funktion für #include "amplitude.H"
     
+//    if (t == 0.5) Ampli += 0.2;
+    
+    if (t == 0.5) cout << "Ampli = " << Ampli << "\n";
 
     // Convert the rotational motion from deg to rad
     eulerAngles *= degToRad();
@@ -103,10 +107,10 @@ bool Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::read
     const dictionary& SBMFCoeffs
 )
 {
-    solidBodyMotionFunction::read(SBMFCoeffs);
+    solidBodyMotionFunctionTrim::read(SBMFCoeffs);
 
     SBMFCoeffs_.readEntry("origin", origin_);
-    SBMFCoeffs_.readEntry("amplitude", amplitude_);
+//    SBMFCoeffs_.readEntry("amplitude", amplitude_);
     SBMFCoeffs_.readEntry("omega", omega_);
 
     return true;

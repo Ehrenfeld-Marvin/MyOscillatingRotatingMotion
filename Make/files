@@ -1,3 +1,0 @@
-MyoscillatingRotatingMotion.C
-
-LIB = $(FOAM_USER_LIBBIN)/libmyMotions
