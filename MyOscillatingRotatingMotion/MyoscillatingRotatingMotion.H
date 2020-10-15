@@ -68,7 +68,7 @@ class MyoscillatingRotatingMotion
         //- Radial velocity
         scalar omega_;
         
-	mutable scalar Ampli;
+	mutable scalar Ampli = 0.1;
 
     // Private Member Functions
 
@@ -114,7 +114,7 @@ public:
 
     // Member Functions
 
-	void Amplitude() const;
+	int Amplitude() const;
 
         //- Return the solid-body motion transformation septernion
         virtual septernion transformation() const;

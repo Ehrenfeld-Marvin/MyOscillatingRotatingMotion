@@ -31,6 +31,7 @@ License
 #include "unitConversion.H"
 
 
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -76,16 +77,25 @@ transformation() const
 
 
 #include "amplitude.H"			
-	Amplitude();			//Funktion wird aufgerufen amplitude zu ändern -> ERROR: assignment of read-only location
+//	Amplitude();			
 	
     scalar t = time_.value();
+    
+amplitude_.x()=0;
+amplitude_.y()=0;
+//amplitude_.z()=Amplitude();
 
-//    vector eulerAngles = amplitude_*sin(omega_*t);			//Funktion für Amplitude();
-    vector eulerAngles = Ampli*ampli*sin(omega_*t);				//Funktion für #include "amplitude.H"
+	if(t>=5)
+	{
+	amplitude_.z()=5;
+	}
+
+    vector eulerAngles = amplitude_*sin(omega_*t);			//Funktion für Amplitude();
+//    vector eulerAngles = Ampli*ampli*sin(omega_*t);			//Funktion für #include "amplitude.H"
     
 //    if (t == 0.5) Ampli += 0.2;
     
-    if (t == 0.5) cout << "Ampli = " << Ampli << "\n";
+//    if (t == 0.5) cout << "Ampli = " << Ampli << "\n";
 
     // Convert the rotational motion from deg to rad
     eulerAngles *= degToRad();
