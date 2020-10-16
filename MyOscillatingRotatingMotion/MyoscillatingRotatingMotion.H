@@ -69,6 +69,8 @@ class MyoscillatingRotatingMotion
         scalar omega_;
         
 	mutable scalar Ampli = 0.1;
+//	mutable int changeTime = 0;		//Intervall when the amplitude is supposed to change
+	mutable float changeTime = 0;		//Intervall when the amplitude is supposed to change
 
     // Private Member Functions
 
@@ -114,7 +116,7 @@ public:
 
     // Member Functions
 
-	int Amplitude() const;
+	vector Amplitude() const;
 
         //- Return the solid-body motion transformation septernion
         virtual septernion transformation() const;

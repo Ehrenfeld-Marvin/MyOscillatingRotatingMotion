@@ -81,17 +81,9 @@ transformation() const
 	
     scalar t = time_.value();
     
-amplitude_.x()=0;
-amplitude_.y()=0;
-//amplitude_.z()=Amplitude();
-
-	if(t>=5)
-	{
-	amplitude_.z()=5;
-	}
-
-    vector eulerAngles = amplitude_*sin(omega_*t);			//Funktion für Amplitude();
-//    vector eulerAngles = Ampli*ampli*sin(omega_*t);			//Funktion für #include "amplitude.H"
+	vector eulerAngles = Amplitude()*sin(omega_*t);			//Funktion für vector Amplitude(),;
+//	vector eulerAngles = amplitude_*sin(omega_*t);			//Funktion für Amplitude();
+//	vector eulerAngles = Ampli*ampli*sin(omega_*t);			//Funktion für #include "amplitude.H"
     
 //    if (t == 0.5) Ampli += 0.2;
     

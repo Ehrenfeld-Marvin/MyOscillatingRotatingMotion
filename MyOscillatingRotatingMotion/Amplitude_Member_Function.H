@@ -1,42 +1,23 @@
-int Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplitude() const
+Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplitude() const
 {
 
 //int ende=time_.endTime().value();
 float time=time_.value();
-int change;
-int test;
-
+float Nullstelle = (5*2*3.1416)/omega_;
 amplitude_.x()=0;
 amplitude_.y()=0;
 
 
-if(time_.value()==2)
+if(time>=changeTime)
 {
-	change =2;
-//	amplitude_.z()=1;
-	test =10;
-	
-	return test;
+
+	amplitude_.z() += 2;
+	changeTime += Nullstelle;
+	return amplitude_;
+
 }
-/*else if (time==5)
-	{
-	test = 5;
-	return test;
-	}
-*/
-
-/*
-if(time>=change)
-{
-
-//	amplitude_.z() += 1;
-	test += 1;
-	change += 2;
-	return test;
-
-}*/
 
 	
-	return test;
+	return amplitude_;
 }
 
