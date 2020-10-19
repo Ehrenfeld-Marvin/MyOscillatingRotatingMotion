@@ -1,0 +1,3 @@
+Myforces.C
+
+LIB = $(FOAM_USER_LIBBIN)/libMyForces

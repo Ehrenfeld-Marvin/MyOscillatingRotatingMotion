@@ -1,6 +1,0 @@
-SOURCE = \
-solidBodyMotionFunctionTrim.C \
-solidBodyMotionFunctionTrimNew.C \
-solidBodyMotionSolverTrim.C \
-
-# sources
