@@ -375,8 +375,8 @@ public:
     //- Runtime type information
     TypeName("Myforces");
     
-
-
+	mutable int change;
+	mutable int Value;
 	
     // Constructors
 
@@ -421,7 +421,8 @@ public:
         virtual bool execute();
 
         //- Write the Myforces
-        virtual bool write();       
+        virtual bool write();   
+
         
 //        void Calculate_Force_Average() const;
         

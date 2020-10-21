@@ -31,23 +31,37 @@ void Foam::functionObjects::Myforces::writeForceArray
    		Force_Sum += Force_Array[m];
    	}   	
    	Average = Force_Sum/Divide;
+   	  
+   	 
+	
    	
    	if (writeToFile())
 	{
+	
+	   	if(run_T>=change)
+   		{
+   			Value+=3;
+   			change+=5;
+   		} 
+	
         	Ostream& os = osPtr();
-
-        	writeCurrentTime(os);	
+        	
+        	os	<< Value;
+        	
+        	
+/*              	writeCurrentTime(os);	
 
 		os 	<< tab << total
-			<< tab << Average;
-	
-	for(int j=iterator; j>=0; j--)
-	{
-		os 	<< tab << Force_Array[j] 
-			<< tab << Force_Array[j][0] << endl << tab << tab;
-			
-	}
+//			<< tab << run_T
+			<< tab << Average;	
 
+	for(int j=iterator; j>=0; j--)						//Schreibt alle Werte des Force Arrays die zum jeweiligen Zeitpunkt t eingespeichert wurden 
+		{
+			os 	<< tab << Force_Array[j] 
+				<< tab << Force_Array[j][0] << endl << tab << tab;
+			
+		}
+*/
         os  << endl;
     }
 }

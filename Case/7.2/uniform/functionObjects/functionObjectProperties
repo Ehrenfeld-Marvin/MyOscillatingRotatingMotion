@@ -1,0 +1,35 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "7.2/uniform/functionObjects";
+    object      functionObjectProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+results
+{
+    MyForces_Dir
+    {
+        vector
+        {
+            normalMyForce   ( 0.0005753216596549769 0.09531861765060672 6.415634203240881e-19 );
+            tangentialMyForce ( 0.0001629544103520364 6.18087642528245e-06 9.118086903030848e-21 );
+            porousMyForce   ( 0 0 0 );
+            normalMoment    ( 0.03871281725751952 -0.0002336618262358344 -0.05240304684555791 );
+            tangentialMoment ( 2.510308536159797e-06 -6.618249891525863e-05 -1.151476914784913e-05 );
+            porousMoment    ( 0 0 0 );
+        }
+    }
+}
+
+
+// ************************************************************************* //

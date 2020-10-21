@@ -42,6 +42,7 @@ SourceFiles
 #include "primitiveFields.H"
 #include "point.H"
 
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -69,6 +70,9 @@ class MyoscillatingRotatingMotion
         scalar omega_;
         
 	mutable float changeTime = 0;		//Intervall when the amplitude is supposed to change
+	mutable string readFile;
+	mutable int readAmplitude=1;
+
 
     // Private Member Functions
 

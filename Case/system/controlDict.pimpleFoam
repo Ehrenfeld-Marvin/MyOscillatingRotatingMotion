@@ -29,13 +29,13 @@ startFrom       latestTime;
 
 stopAt 	endTime;
 
-endTime 	10;
+endTime 	20;
 
-deltaT          1e-2;
+deltaT          1e-1;
 
 writeControl    timeStep;
 
-writeInterval   10;
+writeInterval   1;
 
 adjustTimeStep  no;
 
@@ -57,7 +57,7 @@ runTimeModifiable true;
 
 functions
 {
-    MyForces
+    MyForces_Dir
     {
         type                Myforces;
         libs                ("libMyForces.so");

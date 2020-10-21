@@ -567,6 +567,7 @@ void Foam::functionObjects::Myforces::addToFields
 }
 
 
+
 void Foam::functionObjects::Myforces::writeIntegratedMyForceMoment
 (
     const string& descriptor,
@@ -623,7 +624,7 @@ void Foam::functionObjects::Myforces::writeMyForces()
 
     writeIntegratedMyForceMoment
     (
-        "Myforces",
+        "Myforce",
         coordSys_.localVector(Myforce_[0]),
         coordSys_.localVector(Myforce_[1]),
         coordSys_.localVector(Myforce_[2]),
