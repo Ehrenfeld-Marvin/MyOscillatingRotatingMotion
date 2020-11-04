@@ -180,6 +180,7 @@ protected:
             //- MyForces
             autoPtr<OFstream> MyforceFilePtr_;
             autoPtr<OFstream> Force_Array_Ptr;
+            mutable autoPtr<OFstream> Force_Cycle;
 
             //- Moments
             autoPtr<OFstream> momentFilePtr_;
@@ -224,6 +225,9 @@ protected:
             bool porosity_;
             
             mutable scalar Amplitude;
+            
+            int NuOfOsc;
+            scalar omega;
 
 
             // Bin information
@@ -267,6 +271,7 @@ protected:
 
         //- Write header for integrated data
         void writeIntegratedHeader(const word& header, Ostream& os) const;
+        void writeIntegratedHeaderNEW(const word& header, Ostream& os) const;
 
         //- Write header for binned data
         void writeBinHeader(const word& header, Ostream& os) const;
@@ -374,10 +379,11 @@ public:
 
     //- Runtime type information
     TypeName("Myforces");
-    
-	mutable int change;
-	mutable int Value;
 	
+	mutable float TimeToDelete=0;
+	mutable string test[10];
+	mutable int IT=0;
+	mutable std::string FileName="Force_Cycle";
     // Constructors
 
         //- Construct from Time and dictionary
@@ -422,6 +428,8 @@ public:
 
         //- Write the Myforces
         virtual bool write();   
+        
+        void DeleteFile() const;
 
         
 //        void Calculate_Force_Average() const;

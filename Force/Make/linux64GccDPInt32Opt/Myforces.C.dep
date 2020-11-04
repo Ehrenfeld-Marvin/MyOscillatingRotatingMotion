@@ -801,5 +801,6 @@ $(WM_PROJECT_DIR)/src/transportModels/compressible/lnInclude/compressibleTranspo
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addToRunTimeSelectionTable.H \
 WriteForceArray.H \
+DeleteFile.H \
 
 

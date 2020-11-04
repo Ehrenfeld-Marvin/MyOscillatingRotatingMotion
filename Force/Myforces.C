@@ -33,6 +33,7 @@ License
 #include "turbulentFluidThermoModel.H"
 #include "addToRunTimeSelectionTable.H"
 #include "cartesianCS.H"
+#include <fstream>
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -61,11 +62,13 @@ void Foam::functionObjects::Myforces::createFiles()
     if (writeToFile() && !MyforceFilePtr_.valid())
     {
         MyforceFilePtr_ = createFile("Myforce");
-	Force_Array_Ptr = createFile("Force_Array");
         writeIntegratedHeader("MyForce", MyforceFilePtr_());
         momentFilePtr_ = createFile("moment");
         writeIntegratedHeader("Moment", momentFilePtr_());
-
+	Force_Array_Ptr = createFile("Force_Array");
+	writeIntegratedHeaderNEW("Force_Array", Force_Array_Ptr());
+	Force_Cycle = createFile(FileName);
+	writeIntegratedHeaderNEW("Force_Cycle", Force_Cycle());
         if (nBin_ > 1)
         {
             MyforceBinFilePtr_ = createFile("MyforceBin");
@@ -76,6 +79,23 @@ void Foam::functionObjects::Myforces::createFiles()
     }
 }
 
+
+
+
+void Foam::functionObjects::Myforces::writeIntegratedHeaderNEW
+(
+    const word& header,
+    Ostream& os
+) const
+{
+    writeHeader(os, header);
+    writeCommented(os, "Time");
+    writeTabbed(os, "total_x");
+    writeTabbed(os, "total_y");
+    writeTabbed(os, "total_z");
+
+    os  << endl;
+}
 
 void Foam::functionObjects::Myforces::writeIntegratedHeader
 (
@@ -98,7 +118,6 @@ void Foam::functionObjects::Myforces::writeIntegratedHeader
 
     os  << endl;
 }
-
 
 void Foam::functionObjects::Myforces::writeBinHeader
 (
@@ -598,13 +617,11 @@ void Foam::functionObjects::Myforces::writeIntegratedMyForceMoment
         Ostream& os = osPtr();
 
         writeCurrentTime(os);
-
+        
 	
-
 	os  	<< tab << total	
-		<< tab << pressure				//Ergebnisse in MyForce.dat schreiben		
-		<< tab << viscous;				//Ergebnisse in MyForce.dat schreiben
-
+		<< tab << pressure					
+		<< tab << viscous;				
         if (porosity_)
         {
             os  << tab << porous;
@@ -615,6 +632,7 @@ void Foam::functionObjects::Myforces::writeIntegratedMyForceMoment
 }
 
 #include "WriteForceArray.H"
+#include "DeleteFile.H"
 
 
 void Foam::functionObjects::Myforces::writeMyForces()
@@ -731,6 +749,7 @@ Foam::functionObjects::Myforces::Myforces
     moment_(3),
     MyforceFilePtr_(),
     Force_Array_Ptr(),
+    Force_Cycle(),
     momentFilePtr_(),
     MyforceBinFilePtr_(),
     momentBinFilePtr_(),
@@ -777,6 +796,7 @@ Foam::functionObjects::Myforces::Myforces
     moment_(3),
     MyforceFilePtr_(),
     Force_Array_Ptr(),
+    Force_Cycle(),
     momentFilePtr_(),
     MyforceBinFilePtr_(),
     momentBinFilePtr_(),
@@ -838,7 +858,10 @@ bool Foam::functionObjects::Myforces::read(const dictionary& dict)
         (
             dict.get<wordRes>("patches")
         );
-
+        
+    NuOfOsc = dict.get<int>("Oscillations");
+    omega = dict.get<scalar>("omega");
+    
     if (directMyForceDensity_)
     {
         // Optional entry for fDName
@@ -1121,6 +1144,8 @@ bool Foam::functionObjects::Myforces::execute()
         createFiles();
 
         writeMyForces();
+
+	DeleteFile();
 
         writeBins();
 

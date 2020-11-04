@@ -1,0 +1,6 @@
+Oscillations		1;
+omega 	        	2;       //units of rad/s
+Target			0.7;
+K_P			0.2;
+K_I			0.075;
+K_D			0.9;

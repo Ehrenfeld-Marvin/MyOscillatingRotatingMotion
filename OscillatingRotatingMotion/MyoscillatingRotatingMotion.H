@@ -43,6 +43,7 @@ SourceFiles
 #include "point.H"
 
 
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -69,11 +70,35 @@ class MyoscillatingRotatingMotion
         //- Radial velocity
         scalar omega_;
         
+        int NuOfOsc;
+        
 	mutable float changeTime = 0;		//Intervall when the amplitude is supposed to change
-	mutable string readFile;
-	mutable int readAmplitude=1;
 
 
+	mutable double Target;			//Zielwert der Force
+	mutable float K_P;			//PID Koeffizienten
+	mutable float K_I;
+	mutable float K_D;
+	mutable double IST;
+	mutable double IST_alt=0;
+	mutable double IST_SUMME=0;
+	mutable double e_t;
+	mutable double y_t;
+
+
+	
+	mutable double Average_X=0;
+	mutable double Average_Y=0;
+	mutable double Average_Z=0;
+
+//	mutable int Sinus_Iterator=0;
+	
+
+	mutable int I_iterator=5;
+	mutable int I_intervall=5;
+	mutable vector I_vector;
+        
+        
     // Private Member Functions
 
         //- No copy construct
@@ -89,6 +114,7 @@ public:
     TypeName("MyoscillatingRotatingMotion");
 
 
+ 
     // Constructors
 
         //- Construct from components

@@ -29,7 +29,7 @@ startFrom       latestTime;
 
 stopAt 	endTime;
 
-endTime 	20;
+endTime 	60;
 
 deltaT          1e-1;
 
@@ -59,11 +59,13 @@ functions
 {
     MyForces_Dir
     {
+    #include "Oscillations"
         type                Myforces;
         libs                ("libMyForces.so");
         writeControl        timeStep;
         writeInterval       10;
-        patches             (Wing-Top);
+//        patches             (Wing-Top);
+      patches             (Wing-Top Wing-Bottom);
         rho                 rhoInf;
         log                 true;
         rhoInf              1;

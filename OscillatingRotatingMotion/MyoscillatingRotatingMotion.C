@@ -30,7 +30,7 @@ License
 #include "addToRunTimeSelectionTable.H"
 #include "unitConversion.H"
 #include <fstream>
-//#include <iostream>
+#include <iostream>
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -60,8 +60,8 @@ MyoscillatingRotatingMotion
 :
     solidBodyMotionFunction(SBMFCoeffs, runTime)
 {
+    
     read(SBMFCoeffs);
-//    scalar Ampli = 0.1;
 }
 
 
@@ -80,13 +80,14 @@ transformation() const
 	
     scalar t = time_.value();
     
-	vector eulerAngles = Amplitude()*sin(omega_*t);			//Funktion für vector Amplitude(),;
-//	vector eulerAngles = amplitude_*sin(omega_*t);			//Funktion für Amplitude();
+	
+//	vector eulerAngles = Amplitude()*sin(omega_*t);			
+	vector eulerAngles = Amplitude()*(-1);
 
 
 
     // Convert the rotational motion from deg to rad
-    eulerAngles *= degToRad();
+//    eulerAngles *= degToRad();
 
     quaternion R(quaternion::XYZ, eulerAngles);
     septernion TR(septernion(-origin_)*R*septernion(origin_));
@@ -110,6 +111,12 @@ bool Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::read
     SBMFCoeffs_.readEntry("origin", origin_);
 //    SBMFCoeffs_.readEntry("amplitude", amplitude_);
     SBMFCoeffs_.readEntry("omega", omega_);
+    SBMFCoeffs_.readEntry("Oscillations", NuOfOsc);
+    SBMFCoeffs_.readEntry("Target", Target);
+    SBMFCoeffs_.readEntry("K_P", K_P);
+    SBMFCoeffs_.readEntry("K_I", K_I);
+    SBMFCoeffs_.readEntry("K_D", K_D);
+    
 
     return true;
 }
