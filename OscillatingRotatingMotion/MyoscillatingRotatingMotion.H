@@ -81,9 +81,13 @@ class MyoscillatingRotatingMotion
 	mutable float K_D;
 	mutable double IST;
 	mutable double IST_alt=0;
-	mutable double IST_SUMME=0;
+	mutable double e_t_SUMME=0;
 	mutable double e_t;
+	mutable double e_t_alt;
 	mutable double y_t;
+	mutable float P;
+	mutable float I;
+	mutable float D;
 
 
 	
@@ -92,11 +96,12 @@ class MyoscillatingRotatingMotion
 	mutable double Average_Z=0;
 
 //	mutable int Sinus_Iterator=0;
-	
+	mutable std::vector<double> I_vector;	
 
-	mutable int I_iterator=5;
-	mutable int I_intervall=5;
-	mutable vector I_vector;
+	mutable int I_iterator=0;
+	mutable int I_intervall=10;
+
+//	mutable std::vector I_vector;
         
         
     // Private Member Functions

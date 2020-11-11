@@ -6,7 +6,7 @@ void Foam::functionObjects::Myforces::DeleteFile
 	float run_T=time().value();
 	float delta=time().deltaT().value();
 //	float TimeInterval= (NuOfOsc*2*3.1416)/omega;
-	float TimeInterval= 3;
+	float TimeInterval= 4;
 	
 	writeForceArray
 	(

@@ -7,7 +7,7 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 	float end_t=time_.endTime().value();
 	
 //	float Nullstelle = (NuOfOsc*2*3.141592653)/omega_;
-	float Nullstelle = 3;
+	float Nullstelle = 4;
 	string str1;
 	string str2;
 	string str3;
@@ -23,8 +23,6 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 	int Average_Divider_Y=0;
 	
 
-
-//	I_vector[I_intervall+1]=0;
 
 //	float Sinus_Iterations = 2*3.141592653/(omega_*delta);
 
@@ -99,57 +97,69 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
      		Average_Z /= (Average_Divider);
 		
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/		
-/*	
-//		I_array[I_iterator]=Average_Y;
-		if(I_iterator<I_intervall) 
-		{
-			IST_SUMME+=Average_Y;
-			I_vector[I_iterator]=Average_Y;
-			cout <<"\n\n\nI_vector["<< I_iterator << "] " << I_vector[I_iterator] <<"\n";
-			I_iterator++;
 
-		}
-		else 
+/*++##########################	INTEGRAL SUMME		##############################*/		
+		
+/*		if(I_iterator!=I_intervall) 						//Hier noch IST_SUMME korriegieren zu e_t_SUMME
 		{
-			IST_SUMME=0;
-			for(int position=1; position <= I_intervall; position++)
-			{
-				
-//				if(position < (I_intervall-1)) 
-				I_vector[position]=I_vector[position+1];
-//				else I_vector[position]=Average_Y;
-//				IST_SUMME += I_vector[position];
-			}
-			
+			I_vector.push_back(Average_Y);
+			I_iterator++;
 		}
+		else
+		{
+			I_vector.erase(I_vector.begin());
+			I_vector.push_back(Average_Y);
+		}
+		
+		IST_SUMME=0;
+		for(auto i=I_vector.begin(); i!=I_vector.end(); i++) e_t_SUMME+=*i;
 */		
+
+/*++######################################################################################*/
 		
-/*############################	PID REGLER	###################################*/
 		
+/*++++++++++++++++++++++++++++	PID REGLER	+++++++++++++++++++++++++++++++++++++*/
+		
+		cout 	<<"\n\n\nIST_alt " << IST_alt << "\n";
 		
 		IST = Average_Y;							
-		IST_SUMME+=Average_Y; 
-		e_t=Target-IST;								//FEHLER
-		y_t=K_P*e_t+K_I*delta*IST_SUMME+K_D*(IST-IST_alt)*delta;			//STELLGRÖSSE
+		
+		e_t=Target-IST;
+		e_t_alt=Target-IST_alt;
+		e_t_SUMME+=e_t; 
+		
+		P=K_P*e_t;
+		I=K_I*delta*e_t_SUMME;
+		D=K_D*((e_t-e_t_alt)/delta)	;							//FEHLER
+		
+		y_t=P+I+D;			//STELLGRÖSSE		
+		
 //		if(y_t<0)y_t=0;								//Amplitude darf nicht negativ sein????
+
 		IST_alt=IST;
 
 		
-/*#########################################################################################*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 		
 		
 		amplitude_.z() = y_t;
-		changeTime += (Nullstelle+delta);					//+delta wegen Zeitverzögerung zwischen scheiben und lesen
+		changeTime += (Nullstelle+delta);					//+delta wegen Zeitverzögerung zwischen schreiben und lesen
 		
-		cout <<"\n\n\nTARGET " << Target << "\n";
-		cout <<"AVERGAE Y: " << Average_Y << "\n";
-		cout <<"IST_SUMME: " << IST_SUMME << "\n";
-//		cout <<"I_iterator: " << I_iterator << "\n";		
-		cout <<"IST " << IST << "\n";
-		cout <<"e_t " << e_t << "\n";
-		cout <<"y_t " << y_t << "\n";
-		cout <<"amplitude_ " << amplitude_.z() << "\n";
-
+		cout 	<<"TARGET " << Target << "\n"
+		 	<<"AVERGAE Y: " << Average_Y << "\n"
+		 	<<"IST_SUMME: " << e_t_SUMME << "\n"
+//		 	<<"I_iterator: " << I_iterator << "\n"
+		 	<<"IST " << IST << "\n"
+		 	<<"IST_alt_neu " << IST << "\n"
+		 	<<"e_t " << e_t << "\n"
+		 	<<"y_t " << y_t << "\n"
+		 	<<"K_P " << K_P << "\n"
+		 	<<"K_I " << K_I << "\n"
+		 	<<"K_D " << K_D << "\n"
+		 	<<"P " << P << "\n"
+		 	<<"I " << I << "\n"
+		 	<<"D " << D << "\n"
+		 	<<"amplitude_ " << amplitude_.z() << "\n";
 
 					
 		
@@ -158,7 +168,7 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 		return amplitude_;
 	}
 	
-
+ 
 
 
 	

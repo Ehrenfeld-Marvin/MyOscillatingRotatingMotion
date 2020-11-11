@@ -29,13 +29,13 @@ startFrom       latestTime;
 
 stopAt 	endTime;
 
-endTime 	60;
+endTime 	300;
 
 deltaT          1e-1;
 
 writeControl    timeStep;
 
-writeInterval   1;
+writeInterval   100;
 
 adjustTimeStep  no;
 
