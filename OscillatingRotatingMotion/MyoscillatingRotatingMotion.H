@@ -72,7 +72,7 @@ class MyoscillatingRotatingMotion
         
         int NuOfOsc;
         
-	mutable float changeTime = 0;		//Intervall when the amplitude is supposed to change
+	mutable float Read_Time_Intervall = 0;		//Intervall when the amplitude is supposed to change
 
 
 	mutable double Target;			//Zielwert der Force
@@ -91,9 +91,9 @@ class MyoscillatingRotatingMotion
 
 
 	
-	mutable double Average_X=0;
-	mutable double Average_Y=0;
-	mutable double Average_Z=0;
+	mutable double Force_Average_X=0;
+	mutable double Force_Average_Y=0;
+	mutable double Force_Average_Z=0;
 
 //	mutable int Sinus_Iterator=0;
 	mutable std::vector<double> I_vector;	

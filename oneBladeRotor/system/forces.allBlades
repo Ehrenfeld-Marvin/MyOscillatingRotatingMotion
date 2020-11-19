@@ -1,0 +1,30 @@
+   airfoilUpForces0
+    {
+    	#include "Oscillations"
+		libs            ("libTrimForces.so");
+		type            TrimForces;
+		patches         (airfoilUp airdoilDown);
+		CofR            (0.5 0 0);
+		pitchAxis       (0 0 1);
+		log             off;
+		writeControl    timeStep;
+		writeInterval   1;
+		rho             rhoInf;
+		rhoInf          1.19133763169082;    // Redundant, but currently read in
+    }
+/*
+    airfoilDownForces0
+    {
+    	#include "Oscillations"
+		libs            ("libTrimForces.so");
+		type            TrimForces;
+		patches         (airfoilDown);
+		CofR            (0.5 0 0);
+		pitchAxis       (0 0 1);
+		log             off;
+		writeControl    timeStep;
+		writeInterval    1;
+		rho             rhoInf;
+		rhoInf          1.19133763169082;    // Redundant, but currently read in
+    }
+    */

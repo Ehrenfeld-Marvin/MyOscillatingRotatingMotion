@@ -1,4 +1,5 @@
 SOURCE = \
-Myforces.C \
+forces/forces.C \
+TrimForces/TrimForces.C \
 
 # sources

@@ -20,7 +20,7 @@ FoamFile
 libs
 (
  "libTrimMotions.so"
- "libMyForces.so"
+ "libTrimForces.so"
 );
 
 application     pimpleFoam;
@@ -29,13 +29,13 @@ startFrom       latestTime;
 
 stopAt 	endTime;
 
-endTime 	300;
+endTime 	30;
 
 deltaT          1e-1;
 
 writeControl    timeStep;
 
-writeInterval   100;
+writeInterval   5;
 
 adjustTimeStep  no;
 
@@ -57,19 +57,18 @@ runTimeModifiable true;
 
 functions
 {
-    MyForces_Dir
+    TrimForces_Dir
     {
-    #include "Oscillations"
-        type                Myforces;
-        libs                ("libMyForces.so");
-        writeControl        timeStep;
-        writeInterval       10;
-//        patches             (Wing-Top);
-      patches             (Wing-Top Wing-Bottom);
-        rho                 rhoInf;
-        log                 true;
-        rhoInf              1;
-        CofR                (0.4974612746 -0.01671895744 0.125);
+	#include "Oscillations"
+	type			TrimForces;
+	libs			("libTrimForces");
+	writeControl		timeStep;
+	writeInterval		1;
+	patches		(Wing-Top Wing-Bottom);
+	rho			rhoInf;
+	log			true;
+	rhoInf			1;
+	CofR			(0.4974612746 -0.01671895744 0.125);
     }
 }
 
