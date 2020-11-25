@@ -29,7 +29,7 @@ startFrom       latestTime;
 
 stopAt 	endTime;
 
-endTime 	30;
+endTime 	20;
 
 deltaT          1e-1;
 

@@ -1,0 +1,6 @@
+Target			2;
+K_P			15;
+K_I			15;
+K_D			10;
+amplitude_begin	0;
+Oscillations		1;

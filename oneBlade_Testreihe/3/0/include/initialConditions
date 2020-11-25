@@ -1,0 +1,16 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+flowVelocity         (0 -0.5 0);
+pressure             0;
+turbulentKE          1.882e-4; // 3/2*(UI)^2  //  0.00325;
+turbulentOmega       0.1210; // <- now from website calculator // 1.5000e+07; // <-- calc. approx from Menter arti. 1993 appendices A-11 and A-12 using preset TKE from above // 1.2247;     //  sqrt(k)/l // 5700;
+gammaInt	     1;
+ReThetat	     5.7166;
+
+// ************************************************************************* //

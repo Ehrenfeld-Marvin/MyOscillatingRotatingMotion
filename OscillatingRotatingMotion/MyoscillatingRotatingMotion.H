@@ -41,7 +41,7 @@ SourceFiles
 #include "solidBodyMotionFunction.H"
 #include "primitiveFields.H"
 #include "point.H"
-
+#include <fstream>
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -72,7 +72,7 @@ class MyoscillatingRotatingMotion
         
         int NuOfOsc;
         
-	mutable float Read_Time_Intervall = 0;		//Intervall when the amplitude is supposed to change
+	mutable float Read_Time_Intervall;		//Intervall when the amplitude is supposed to change
 
 
 	mutable double Target;			//Zielwert der Force
@@ -80,20 +80,21 @@ class MyoscillatingRotatingMotion
 	mutable float K_I;
 	mutable float K_D;
 	mutable double IST;
-	mutable double IST_alt=0;
-	mutable double e_t_SUMME=0;
+	mutable double IST_alt;
+	mutable double e_t_SUMME;
 	mutable double e_t;
 	mutable double e_t_alt;
 	mutable double y_t;
 	mutable float P;
 	mutable float I;
 	mutable float D;
-
+	
+	scalar startTime = time_.startTime().value();
 
 	
-	mutable double Force_Average_X=0;
-	mutable double Force_Average_Y=0;
-	mutable double Force_Average_Z=0;
+	mutable double Force_Average_X;
+	mutable double Force_Average_Y;
+	mutable double Force_Average_Z;
 
 //	mutable int Sinus_Iterator=0;
 	mutable std::vector<double> I_vector;	
@@ -102,6 +103,8 @@ class MyoscillatingRotatingMotion
 	mutable int I_intervall=10;
 
 //	mutable std::vector I_vector;
+
+
         
         
     // Private Member Functions
@@ -141,6 +144,7 @@ public:
                 )
             );
         }
+	
 
 
     //- Destructor
@@ -150,6 +154,34 @@ public:
     // Member Functions
 
 	vector Amplitude() const;
+
+	void writePIDdata
+	(    	
+		double Target,			
+		float K_P,			
+		float K_I,
+		float K_D,
+		double IST,
+		double IST_alt,
+		double e_t_SUMME,
+		double e_t,
+		double e_t_alt,
+		double y_t,
+		float P,
+		float I,
+		float D,
+		double Force_Average_X,
+		double Force_Average_Y,
+		double Force_Average_Z,
+		float time
+	) const;
+	
+	void Back_up_Data_PID
+	(
+		double IST_alt,
+		double e_t_SUMME,
+		double e_t_alt
+	) const;
 
         //- Return the solid-body motion transformation septernion
         virtual septernion transformation() const;

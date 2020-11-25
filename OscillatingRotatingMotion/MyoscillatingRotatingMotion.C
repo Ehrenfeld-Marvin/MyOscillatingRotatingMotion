@@ -33,6 +33,7 @@ License
 #include <iostream>
 
 
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -61,24 +62,65 @@ MyoscillatingRotatingMotion
 :
     solidBodyMotionFunction(SBMFCoeffs, runTime)
 {
-    
     read(SBMFCoeffs);
+    if(omega_==0)omega_=1;
+    float Time_Intervall_Value = (NuOfOsc*2*3.141592653)/omega_;
+    if(startTime>0)
+    {
+
+    	while(Read_Time_Intervall<startTime) Read_Time_Intervall+=Time_Intervall_Value;
+
+/*+++++++++++ READING PID BACK UP DATA ++++++*/
+    	string ReadFile;
+    	string FILE;
+    	string Path=time_.path();
+	string FileName="/Back_Up_Data_PID.dat";
+	double Value;
+	Path=Path.append(FileName);
+    	std::ifstream Back_Up_Data_PID;
+    	Back_Up_Data_PID.open(Path);
+    	int i=0;
+    	while(getline(Back_Up_Data_PID, FILE))
+    	{
+    		
+    		ReadFile = FILE;
+    		Value = std::stod(ReadFile);
+    		if(i==0) IST_alt = Value; 
+		if(i==1) e_t_SUMME = Value;
+		if(i==2) e_t_alt = Value;
+		i++;
+    	}
+    	
+/*++++++++++++++++++++++++++++++++++++++++++++*/
+    }	
+    	if(startTime==0)
+	{
+		IST_alt=0;
+		e_t_SUMME=0;
+		Force_Average_X=0;
+		Force_Average_Y=0;
+		Force_Average_Z=0;
+		Read_Time_Intervall=Time_Intervall_Value;
+		
+	}
+	amplitude_.x()=0;
+	amplitude_.y()=0;
+	
 }
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-
+#include "WriteFilePID.H"
 #include "Amplitude_Member_Function.H"
+#include "PID_BackUp_Data.H"
+
 
 Foam::septernion
 Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::
 transformation() const
 {
 
-
-					
-	
     scalar t = time_.value();
     
 	
@@ -94,6 +136,9 @@ transformation() const
     septernion TR(septernion(-origin_)*R*septernion(origin_));
 
     DebugInFunction << "Time = " << t << " transformation: " << TR << endl;
+    
+    
+
 
     return TR;
 }

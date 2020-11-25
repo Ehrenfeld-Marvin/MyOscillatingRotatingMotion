@@ -357,5 +357,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/volFieldsFwd.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addToRunTimeSelectionTable.H \
 TrimForces/checkIfExist.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IFstream.H \
+TrimForces/Constructor.H \
 
 

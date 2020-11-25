@@ -66,7 +66,7 @@ protected:
             
 	mutable scalar Amplitude;
 	int NuOfOsc;
-	scalar omega;
+//	scalar omega;
 	scalar startTime=time().startTime().value();
 	bool restart_without_deleting;
 

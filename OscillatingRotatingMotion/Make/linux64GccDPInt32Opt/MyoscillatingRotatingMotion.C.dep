@@ -348,6 +348,8 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tensorFieldTemplates.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/point.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addToRunTimeSelectionTable.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/unitConversion.H \
+WriteFilePID.H \
 Amplitude_Member_Function.H \
+PID_BackUp_Data.H \
 
 

@@ -1,0 +1,12 @@
+Target: 0.5	K_P: 0.01	K_I: 1.9	K_D: 0	IST: -0.0161527	IST_alt: -0.0161527	e_t_SUMME: 0.516153	e_t: 0.516153	e_t_alt: 0.5	y_t: 0.103231	P: 0.00516153	I: 0.098069	D: 0	
+Force_Average_X: 0.0133059	Force_Average_Y: -0.0161527	Force_Average_Z: 1.07246e-18	time: 3.2
+Target: 0.5	K_P: 0.01	K_I: 1.9	K_D: 0	IST: 0.458369	IST_alt: 0.458369	e_t_SUMME: 0.557784	e_t: 0.0416312	e_t_alt: 0.516153	y_t: 0.106395	P: 0.000416312	I: 0.105979	D: -0	
+Force_Average_X: 0.0314061	Force_Average_Y: 0.458369	Force_Average_Z: 2.26529e-18	time: 6.2
+Target: 0.5	K_P: 0.01	K_I: 1.9	K_D: 0	IST: 0.480437	IST_alt: 0.480437	e_t_SUMME: 0.577347	e_t: 0.0195628	e_t_alt: 0.0416312	y_t: 0.109892	P: 0.000195628	I: 0.109696	D: -0	
+Force_Average_X: 0.0326349	Force_Average_Y: 0.480437	Force_Average_Z: 1.19772e-18	time: 9.2
+Target: 0.5	K_P: 0.01	K_I: 1.9	K_D: 0	IST: 0.0877239	IST_alt: 0.0877239	e_t_SUMME: 0.989623	e_t: 0.412276	e_t_alt: 0.019563	y_t: 0.192151	P: 0.00412276	I: 0.188028	D: 0	
+Force_Average_X: 0.0202803	Force_Average_Y: 0.0877239	Force_Average_Z: 1.05704e-18	time: 12.6
+Target: 0.5	K_P: 0.01	K_I: 1.9	K_D: 0	IST: 0.706412	IST_alt: 0.706412	e_t_SUMME: 0.783211	e_t: -0.206412	e_t_alt: 0.412276	y_t: 0.146746	P: -0.00206412	I: 0.14881	D: -0	
+Force_Average_X: 0.0702269	Force_Average_Y: 0.706412	Force_Average_Z: -1.98124e-18	time: 15.6
+Target: 0.5	K_P: 0.01	K_I: 1.9	K_D: 0	IST: 0.604792	IST_alt: 0.604792	e_t_SUMME: 0.678419	e_t: -0.104792	e_t_alt: -0.206412	y_t: 0.127852	P: -0.00104792	I: 0.1289	D: 0	
+Force_Average_X: 0.0481864	Force_Average_Y: 0.604792	Force_Average_Z: 2.14548e-18	time: 18.6

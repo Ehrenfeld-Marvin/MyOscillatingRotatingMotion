@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volScalarField;
+    arch        "LSB;label=32;scalar=64";
+    location    "0";
+    object      nut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+
+internalField   uniform 0;
+
+boundaryField
+{
+    airfoilDown
+    {
+        type            nutLowReWallFunction;
+        value           uniform 0;
+    }
+    airfoilUp
+    {
+        type            nutLowReWallFunction;
+        value           uniform 0;
+    }
+    farfield
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    BaseAndTop
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //

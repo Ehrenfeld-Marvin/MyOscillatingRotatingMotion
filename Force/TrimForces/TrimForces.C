@@ -53,7 +53,6 @@ void Foam::functionObjects::TrimForces::createFiles()
 	
     if (writeToFile() && !Trim_Force_Ptr.valid())
     {
-    		cout << "\n\n++++++++++CREATING TRIM_FORCES.DAT++++++++++\n\n";
 	Trim_Force_Ptr = createFile("Trim_Forces", startTime);
 	if(!restart_without_deleting) writeIntegratedHeaderNEW("Trim_Forces", Trim_Force_Ptr());
 //	Force_Cycle = createFile(FileName);
@@ -205,56 +204,7 @@ Foam::functionObjects::TrimForces::TrimForces
 		setCoordinateSystem(dict);
 		Log << endl;
 	}
-
-	if(startTime>0)
-	{
-			cout << "\n\n++++++++++WRTITIMG TEMP TRIM_FORCES.DAT++++++++++\n\n";
-		restart_without_deleting=true;
-		
-  	  	string ReadTrimForce;
-  	  	string Time_str;
-  	  	float Time_float;
-  	  	std::string TrimForceFile_line;
-		std::fstream TrimForceFile; 
-		TrimForceFile.open("Trim_Forces.dat");
-		std::ofstream temp;
-		temp.open("temp.dat");
-    	
-		while(getline(TrimForceFile, TrimForceFile_line))						//ließt die Force_Cycles Datei linie für linie
-		{
-			ReadTrimForce = TrimForceFile_line;
-			
-			if(ReadTrimForce[0]!='#')							//Überspringt Header
-			{
-      				
-				std::size_t first_tab = ReadTrimForce.find('\t');			//Find place of first tab
-				Time_str = ReadTrimForce.substr(0,first_tab);					//Save first Value in str1	: equals Time
-				Time_float = std::stod(Time_str);					//Converting STRING to FLOAT
-
-				if(Time_float<=startTime) temp << TrimForceFile_line << "\n";
-			}
-			else temp << TrimForceFile_line << "\n";
-			
-		}
-		
-		temp.close();
-		TrimForceFile.close();
-		remove("Trim_Forces.dat");
-		rename("temp.dat","Trim_Forces.dat");
-      		
-	}
-    
-//	string Path=time().path();
-//	string PostProcessingPath="/postProcessing/TrimForces_Dir/0/Trim_Forces.dat";
-//	Path=Path.append(PostProcessingPath);
-	
-	if(startTime==0)
-	{
-		cout << "\n\n++++++++++REMOVING TRIM_FORCES.DAT++++++++++\n\n";
-		remove("Trim_Forces.dat");
-	}
-	
-	
+	#include "Constructor.H"
 }
 
 
@@ -266,7 +216,7 @@ bool Foam::functionObjects::TrimForces::read(const dictionary& dict)
 
         
     NuOfOsc = dict.get<int>("Oscillations");
-    omega = dict.get<scalar>("omega");
+//    omega = dict.get<scalar>("omega");
     
     writeFields_ = dict.getOrDefault("writeFields", false);
 

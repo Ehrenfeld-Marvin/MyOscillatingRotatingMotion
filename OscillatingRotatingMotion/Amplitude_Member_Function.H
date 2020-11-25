@@ -4,10 +4,9 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 
 	float time=time_.value();
 	float delta_T=time_.deltaT().value();
-	float end_T=time_.endTime().value();
 	
 //	float Time_Intervall_Value = (NuOfOsc*2*3.141592653)/omega_;
-	float Time_Intervall_Value = 5;
+	float Time_Intervall_Value = 3;
 	string str1;
 	string str2;
 	string str3;
@@ -24,24 +23,22 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 	
 
 	string Path=time_.path();
-	string PostProcessingPath="/postProcessing/TrimForces_Dir/0/Trim_Forces.dat";
+	string PostProcessingPath="/Trim_Forces.dat";
 	Path=Path.append(PostProcessingPath);
 
 
-//	float Sinus_Iterations = 2*3.141592653/(omega_*delta_T);
-
-	amplitude_.x()=0;
-	amplitude_.y()=0;
+//	amplitude_.x()=0;
+//	amplitude_.y()=0;
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-	if(time==0) Read_Time_Intervall=Time_Intervall_Value; //+delta_T;				//Die Force Datei soll erst nach einem ganzen Cylce gelesen werden
+//	if(time==0) Read_Time_Intervall=Time_Intervall_Value; //+delta_T;				//Die Force Datei soll erst nach einem ganzen Cylce gelesen werden
 										//+delta_T wegen Zeitverzögerung zwischen schreiben und lesen
 										
 /*##########################		FORCE_CYCLE LESEN	##################################*/
 
 
-	if(time>=Read_Time_Intervall)							//Bedingung die Force Datei nur nach n-Zyklen zu lesen
+	if(time>Read_Time_Intervall)							//Bedingung die Force Datei nur nach n-Zyklen zu lesen
 	{
 
 		std::string strForce;
@@ -69,7 +66,6 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
       				if(TrimForce_File_Time>=(Read_Time_Intervall-Time_Intervall_Value))
       				{
       					      			
-					cout << "\n" << strReadForce;
       					      			
 					str2 = strReadForce.substr(first_tab+1,second_tab-first_tab-1);	//Save second Value in str2	: equals total[x]
 					str3 = strReadForce.substr(second_tab+1,third_tab-second_tab-1);	//Save third Value in str3	: equals total[y]
@@ -84,17 +80,11 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 					Force_Y_Value = std::stod(str3);
 					Force_Z_Value = std::stod(str4);	
 
-//					Sinus_Iterator++;							//Zählt wieviele Linien die Schleife gelesen hat um später mit n-Linien zu rechnen 
 					Average_Divider++;							//Zählt wie viele Werte er gespeichert hat für den Mittelwert
 		
 					Force_Average_X += Force_X_Value;							//Kräfte von einer Oszillation addieren
 					Force_Average_Z += Force_Z_Value;
-
-//					if(Sinus_Iterator>Sinus_Iterations/2) // geteilt durch 2		//Nur die erste Hälfte des Sinus wird addiert
-//					{
 					Force_Average_Y += Force_Y_Value;
-//					Average_Divider_Y++;
-//					}
 				}
 			}
       		}
@@ -108,7 +98,6 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 
 
       		Force_Average_X /= (Average_Divider);					//Mittelwerte von n-Cycles bestimmen
-//    		Force_Average_Y /= (Average_Divider_Y);
 		Force_Average_Y /= (Average_Divider);
      		Force_Average_Z /= (Average_Divider);
 		
@@ -150,8 +139,6 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 		
 		y_t=P+I+D;			//STELLGRÖSSE		
 		
-//		if(y_t<0)y_t=0;								//Amplitude darf nicht negativ sein????
-
 		IST_alt=IST;
 
 		
@@ -161,7 +148,7 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 		amplitude_.z() = y_t;
 		Read_Time_Intervall += (Time_Intervall_Value); //+delta_T);					//+delta_T wegen Zeitverzögerung zwischen schreiben und lesen
 
-/*	
+	
 		cout 	<<"TARGET " << Target << "\n"
 		 	<<"AVERGAE Y: " << Force_Average_Y << "\n"
 		 	<<"IST_SUMME: " << e_t_SUMME << "\n"
@@ -177,18 +164,58 @@ Foam::vector Foam::solidBodyMotionFunctions::MyoscillatingRotatingMotion::Amplit
 		 	<<"I " << I << "\n"
 		 	<<"D " << D << "\n"
 		 	<<"amplitude_ " << amplitude_.z() << "\n";
-*/
+
 					
 		
-//		if(Sinus_Iterator>Sinus_Iterations-1 )Sinus_Iterator=0;
+		writePIDdata
+		(
+		Target,			
+		K_P,			
+		K_I,
+		K_D,
+		IST,
+		IST_alt,
+		e_t_SUMME,
+		e_t,
+		e_t_alt,
+		y_t,
+		P,
+		I,
+		D,
+		Force_Average_X,
+		Force_Average_Y,
+		Force_Average_Z,
+		time
+		);
+	
+		Back_up_Data_PID
+		(
+			IST_alt,
+			e_t_SUMME,
+			e_t_alt
+		);
+
 		
 		return amplitude_;
 	}
 	
- 
-
-
-	
+			cout 	<<"TARGET " << Target << "\n"
+		 	<<"AVERGAE Y: " << Force_Average_Y << "\n"
+		 	<<"e_t_SUMME: " << e_t_SUMME << "\n"
+//		 	<<"I_iterator: " << I_iterator << "\n"
+		 	<<"IST_alt " << IST_alt << "\n"
+		 	<<"IST_alt_neu " << IST << "\n"
+		 	<<"e_t " << e_t << "\n"
+		 	<<"e_t_alt " << e_t_alt << "\n"
+		 	<<"K_P " << K_P << "\n"
+		 	<<"K_I " << K_I << "\n"
+		 	<<"K_D " << K_D << "\n"
+		 	<<"P " << P << "\n"
+		 	<<"I " << I << "\n"
+		 	<<"D " << D << "\n"
+		 	<<"Read_Time_Intervall: " << Read_Time_Intervall <<"\n"
+		 	<<"startTime: " << startTime << "\n"
+		 	<<"amplitude_ " << amplitude_.z() << "\n";
 	
 	return amplitude_;
 }
