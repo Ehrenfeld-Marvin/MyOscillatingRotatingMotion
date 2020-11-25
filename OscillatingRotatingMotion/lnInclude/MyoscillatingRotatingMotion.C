@@ -1,1 +1,0 @@
-../MyoscillatingRotatingMotion.C
