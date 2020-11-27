@@ -1,0 +1,109 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2004-2010 OpenCFD Ltd.
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+                            | Copyright (C) 2011-2016 OpenFOAM Foundation
+-------------------------------------------------------------------------------
+License
+    This file is part of OpenFOAM.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
+#include "rotatingNoF1IntegrationMotion.H"
+#include "addToRunTimeSelectionTable.H"
+#include "mathematicalConstants.H"
+
+using namespace Foam::constant::mathematical;
+
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+namespace Foam
+{
+namespace solidBodyMotionFunctions
+{
+    defineTypeNameAndDebug(rotatingNoF1IntegrationMotion, 0);
+    addToRunTimeSelectionTable
+    (
+        solidBodyMotionFunction,
+        rotatingNoF1IntegrationMotion,
+        dictionary
+    );
+}
+}
+
+
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+Foam::solidBodyMotionFunctions::rotatingNoF1IntegrationMotion::rotatingNoF1IntegrationMotion
+(
+    const dictionary& SBMFCoeffs,
+    const Time& runTime
+)
+:
+    solidBodyMotionFunction(SBMFCoeffs, runTime),
+    origin_(SBMFCoeffs_.lookup("origin")),
+    axis_(SBMFCoeffs_.lookup("axis")),
+    omega_(Function1<scalar>::New("omega", SBMFCoeffs_))
+{}
+
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+Foam::solidBodyMotionFunctions::rotatingNoF1IntegrationMotion::~rotatingNoF1IntegrationMotion()
+{}
+
+
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+Foam::septernion
+Foam::solidBodyMotionFunctions::rotatingNoF1IntegrationMotion::transformation() const
+{
+    scalar t = time_.value();
+
+    // Rotation around axis
+    scalar angle = omega_->value(t)*t;
+	
+	cout <<"\n\n\n ANGLE: " << angle << "\n\n\n";
+	
+    quaternion R(axis_, angle);
+    septernion TR(septernion(-origin_)*R*septernion(origin_));
+
+    DebugInFunction << "Time = " << t << " transformation: " << TR << endl;
+
+    return TR;
+}
+
+
+bool Foam::solidBodyMotionFunctions::rotatingNoF1IntegrationMotion::read
+(
+    const dictionary& SBMFCoeffs
+)
+{
+    solidBodyMotionFunction::read(SBMFCoeffs);
+
+    omega_.reset
+    (
+        Function1<scalar>::New("omega", SBMFCoeffs_).ptr()
+    );
+
+    return true;
+}
+
+
+// ************************************************************************* //

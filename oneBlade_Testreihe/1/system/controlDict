@@ -20,7 +20,7 @@ FoamFile
 
 libs
 (
- "libmyMotions.so"
+ "libTrimMotions.so"
 );
 
 application     pimpleFoam;

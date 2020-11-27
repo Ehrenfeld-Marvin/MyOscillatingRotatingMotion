@@ -1,0 +1,1 @@
+../motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/oscillatingRotatingOffsetFunction1Motion/Amplitude_Member_Function.H

@@ -1,0 +1,1 @@
+../motionSolvers/displacement/solidBody/solidBodyMotionFunctions/coganSplineMotion/coganSplineMotion.H
