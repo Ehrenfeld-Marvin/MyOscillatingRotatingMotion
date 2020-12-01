@@ -184,7 +184,6 @@ public:
 		scalar time,
 		double IST_alt,
 		double e_t_SUMME,
-		double e_t_alt,
 		double y_t
 	) const;      
         

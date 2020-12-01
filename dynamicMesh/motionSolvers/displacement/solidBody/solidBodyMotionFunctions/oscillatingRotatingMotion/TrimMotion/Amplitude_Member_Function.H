@@ -199,7 +199,6 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 			time,
 			IST_alt,
 			e_t_SUMME,
-			e_t_alt,
 			y_t
 		);
 				

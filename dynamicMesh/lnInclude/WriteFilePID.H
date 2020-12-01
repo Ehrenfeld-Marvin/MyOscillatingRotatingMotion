@@ -1,1 +1,1 @@
-../motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/oscillatingRotatingOffsetFunction1Motion/WriteFilePID.H
+../motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/WriteFilePID.H

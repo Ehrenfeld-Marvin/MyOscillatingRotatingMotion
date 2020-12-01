@@ -1,6 +1,6 @@
-Target			2;
-K_P			20;
-K_I			10;
-K_D			0;
+Target			0.9;
+K_P			-10;
+K_I			-75;
+K_D			-20;
 amplitude_begin	0;
 Oscillations		1;

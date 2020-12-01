@@ -18,7 +18,6 @@ float Time_Intervall_Value = (NuOfOsc*2*3.141592653)/omega_PID;
 		string str2;
 		string str3;
 		string str4;
-		string str5;
     		
     		while(getline(Back_Up_Data_PID, FILE))
     		{
@@ -27,23 +26,20 @@ float Time_Intervall_Value = (NuOfOsc*2*3.141592653)/omega_PID;
     			std::size_t first_tab = ReadFile.find('\t');			
       			std::size_t second_tab = ReadFile.find('\t', first_tab+1);	
 			std::size_t third_tab = ReadFile.find('\t', second_tab+1);
-			std::size_t fourth_tab = ReadFile.find('\t', third_tab+1);	
     			
     			str1 = ReadFile.substr(0,first_tab);				
 			str2 = ReadFile.substr(first_tab+1,second_tab-first_tab-1);	
 			str3 = ReadFile.substr(second_tab+1,third_tab-second_tab-1);	
-			str4 = ReadFile.substr(third_tab+1, fourth_tab-third_tab-1);	
-			str5 = ReadFile.substr(fourth_tab+1);			
+			str4 = ReadFile.substr(third_tab+1);	
     			
  	   		time = std::stof(str1);
  	   		
- 	   		if(time>=startTime)
+ 	   		if(time<startTime)
  	   		{
  	   		
     				IST_alt = std::stod(str2); 
 				e_t_SUMME = std::stod(str3);
-				e_t_alt = std::stod(str4);
-				y_t = std::stod(str5);
+				y_t = std::stod(str4);
 				amplitude_.z()=y_t;
 				break;
 			}

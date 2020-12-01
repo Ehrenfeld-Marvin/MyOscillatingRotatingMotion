@@ -1,1 +1,0 @@
-../motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/oscillatingRotatingOffsetFunction1Motion/oscillatingRotatingOffsetFunction1Motion.H

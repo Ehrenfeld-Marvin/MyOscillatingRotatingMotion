@@ -6,7 +6,6 @@ void Foam::solidBodyMotionFunctions::TrimMotion::Back_up_Data_PID
 	scalar time,
 	double IST_alt,
 	double e_t_SUMME,
-	double e_t_alt,
 	double y_t
 ) const
 {
@@ -16,7 +15,7 @@ void Foam::solidBodyMotionFunctions::TrimMotion::Back_up_Data_PID
 		std::ofstream Back_Up_Data_PID;
 		Back_Up_Data_PID.open(Path, std::ios_base::app);
     	
-		Back_Up_Data_PID	<< time << tab << IST_alt << tab << e_t_SUMME << tab << e_t_alt << tab << y_t <<"\n";
+		Back_Up_Data_PID	<< time << tab << IST_alt << tab << e_t_SUMME << tab << y_t <<"\n";
 	
 }
 
