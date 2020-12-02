@@ -51,6 +51,7 @@ float Time_Intervall_Value = (NuOfOsc*2*3.141592653)/omega_PID;
 	if(startTime==0)							//RESTART- UND START-BEDINUNGEN FÜR START = 0
 	{
 		IST_alt=0;
+		e_t_alt=0;
 		e_t_SUMME=0;
 		Force_Average_X=0;
 		Force_Average_Y=0;

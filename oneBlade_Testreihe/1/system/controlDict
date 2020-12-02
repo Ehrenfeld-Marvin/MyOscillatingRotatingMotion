@@ -31,11 +31,11 @@ startTime       0;
 
 stopAt endTime;
 
-endTime 		2;
+endTime 		20;
 deltaT  		0.00005;
 writeControl  		adjustableRunTime;
 
-writeInterval   	0.01; // 1.5;
+writeInterval   	20; // 1.5;
 adjustTimeStep  	yes;
 maxCo       		40;
 maxDeltaT   		0.0018697; 

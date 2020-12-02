@@ -28,7 +28,7 @@ void Foam::solidBodyMotionFunctions::TrimMotion::writePIDdata
 		std::ofstream PID_Data;
 		PID_Data.open(Path, std::ios_base::app);
 		
-		cout << "\n\n\n +++++ WRITING PID DATA +++++\n\n\n";
+//		cout << "\n\n\n +++++ WRITING PID DATA +++++\n\n\n";
     	
 		PID_Data	<< "Target: " << Target << tab			
 				<< "K_P: " << K_P << tab			

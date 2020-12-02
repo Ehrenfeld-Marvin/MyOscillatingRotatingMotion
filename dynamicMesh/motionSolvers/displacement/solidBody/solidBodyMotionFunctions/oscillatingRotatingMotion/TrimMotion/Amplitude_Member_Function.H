@@ -67,8 +67,6 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
       				if(TrimForce_File_Time>=(Read_Time_Intervall-Time_Intervall_Value))
       				{
       					
-      					cout	<< "\nRead_Time_Intervall: " << Read_Time_Intervall
-      						<< "\n" << strReadForce;
       					
 					str2 = strReadForce.substr(first_tab+1,second_tab-first_tab-1);	//Save second Value in str2	: equals total[x]
 					str3 = strReadForce.substr(second_tab+1,third_tab-second_tab-1);	//Save third Value in str3	: equals total[y]
@@ -83,18 +81,11 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 					Force_Y_Value = std::stod(str3);
 					Force_Z_Value = std::stod(str4);	
 
-					cout	<<"\nForce_X_Value: " << Force_X_Value
-						<<"\nForce_Y_Value: " << Force_Y_Value
-						<<"\nForce_Z_Value: " << Force_Z_Value;
-
 					Average_Divider++;							//Zählt wie viele Werte er gespeichert hat für den Mittelwert
 		
 					Force_Average_X += Force_X_Value;							//Kräfte von einer Oszillation addieren
 					Force_Average_Z += Force_Z_Value;
 					Force_Average_Y += Force_Y_Value;
-					cout	<<"\nForce_Average_X: " << Force_Average_X
-						<<"\nForce_Average_Y: " << Force_Average_Y
-						<<"\nForce_Average_Z: " << Force_Average_Z;
 				}
 			}
       		}
@@ -135,27 +126,34 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 		
 /*++++++++++++++++++++++++++++	PID REGLER	+++++++++++++++++++++++++++++++++++++*/
 		
-		cout 	<<"TARGET " << Target << "\n"
+/*		cout 	<<"TARGET " << Target << "\n"
 		 	<<"FORCE_AVERAGE_Y: " << Force_Average_Y << "\n"
 		 	<<"E_T_SUMME: " << e_t_SUMME << "\n"
 		 	<<"IST_alt " << IST_alt << "\n"
 		 	<<"e_t_SUMME " << e_t_SUMME << "\n"
 		 	<<"y_t " << y_t << "\n";
-		
+*/		
 		IST = Force_Average_Y;							
-				 	cout <<"IST " << IST << "\n";
+//				 	cout <<"IST " << IST << "\n";
 		e_t=Target-IST;
-		e_t_alt=Target-IST_alt;
+		
 		e_t_SUMME+=e_t; 
 		
 		P=K_P*e_t;
-		I=K_I*delta_T*e_t_SUMME;
-		D=K_D*((e_t-e_t_alt)/delta_T);							//FEHLER
+//		I=K_I*delta_T*e_t_SUMME;
+//		D=K_D*((e_t-e_t_alt)/delta_T);							//FEHLER
+		I=K_I*Time_Intervall_Value*e_t_SUMME;
+		D=K_D*((e_t-e_t_alt)/Time_Intervall_Value);
+		cout 	<<"\n\n\nTARGET " << Target << "\n"
+		 	<<"e_t " << e_t << "\n"
+		 	<<"e_t_alt " << e_t_alt <<"\n\n";
 		
 		y_t=P+I+D;			//STELLGRÖSSE		
 		
 		IST_alt=IST;
-
+		e_t_alt=Target-IST;
+		
+		if(y_t<=-50) y_t = -50;
 		
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 		
@@ -163,7 +161,7 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 		amplitude_.z() = y_t;
 		Read_Time_Intervall += Time_Intervall_Value; //+delta_T);					//+delta_T wegen Zeitverzögerung zwischen schreiben und lesen
 	
-		cout 	<<"TARGET " << Target << "\n"
+/*		cout 	<<"TARGET " << Target << "\n"
 		 	<<"FORCE_AVERAGE_Y: " << Force_Average_Y << "\n"
 		 	<<"E_T_SUMME: " << e_t_SUMME << "\n"
 		 	<<"IST " << IST << "\n"
@@ -172,7 +170,7 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 		 	<<"e_t_SUMME " << e_t_SUMME << "\n"
 		 	<<"y_t " << y_t << "\n"
 		 	<<"amplitude_ " << amplitude_.z() << "\n";
-
+*/
 		writePIDdata
 		(
 		Target,			
@@ -204,7 +202,7 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 				
 		return amplitude_;
 	}
-			cout 	<<"TARGET " << Target << "\n"
+/*			cout 	<<"TARGET " << Target << "\n"
 		 	<<"FORCE_AVERAGE_Y: " << Force_Average_Y << "\n"
 		 	<<"E_T_SUMME: " << e_t_SUMME << "\n"
 		 	<<"IST " << IST << "\n"
@@ -213,6 +211,6 @@ Foam::vector Foam::solidBodyMotionFunctions::TrimMotion::Amplitude(scalar omega)
 		 	<<"e_t_SUMME " << e_t_SUMME << "\n"
 		 	<<"y_t " << y_t << "\n"
 		 	<<"amplitude_ " << amplitude_.z() << "\n";
-	return amplitude_;
+*/	return amplitude_;
 }
 
