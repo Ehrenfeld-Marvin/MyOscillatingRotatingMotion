@@ -357,6 +357,8 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/unitConversion.H \
 motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/Constructor.H \
 motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/WriteFilePID.H \
 motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/Amplitude_Member_Function.H \
+motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/ReadFile.H \
 motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/PID_BackUp_Data.H \
+motionSolvers/displacement/solidBody/solidBodyMotionFunctions/oscillatingRotatingMotion/TrimMotion/PID_REGLER.H \
 
 

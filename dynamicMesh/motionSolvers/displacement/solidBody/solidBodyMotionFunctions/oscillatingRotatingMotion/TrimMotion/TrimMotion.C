@@ -79,6 +79,7 @@ Foam::solidBodyMotionFunctions::TrimMotion::
 #include "WriteFilePID.H"
 #include "Amplitude_Member_Function.H"
 #include "PID_BackUp_Data.H"
+#include "PID_REGLER.H"
 
 
 Foam::septernion
@@ -94,7 +95,10 @@ transformation() const
 
 //    vector eulerAngles = amplitude_ * sign(omega) * ( sin(fabs(omega*t) + initialOffset_*pi ) - sin( initialOffset_*pi ) ); /// the second sin is to ensure that the value is null at time = 0 /// WARNING: the t inside the sine that the function1 will not really be respected, as the angle will be calculated at each time step as if it had for the whole time the ang. vel. of the current timestep
 
-	vector eulerAngles = Amplitude(omega) * sign(omega) * ( sin(fabs(omega*t) + initialOffset_*pi ) - sin( initialOffset_*pi ) );
+	Amplitude(&Amplitude_Value, &phi_Value);
+	amplitude_.z()=Amplitude_Value;
+	
+	vector eulerAngles = amplitude_ * sign(omega) * ( sin(fabs(omega*t) + initialOffset_*pi + phi_Value ) - sin( initialOffset_*pi ) );
 
     // Convert the rotational motion from deg to rad
     eulerAngles *= degToRad();
@@ -120,11 +124,15 @@ bool Foam::solidBodyMotionFunctions::TrimMotion::read
 	SBMFCoeffs_.lookup("amplitude") >> amplitude_;
 //	SBMFCoeffs_.lookup("omega") >> omega_;
 	SBMFCoeffs_.lookup("initialOffset") >> initialOffset_;
-	SBMFCoeffs_.lookup("K_P") >> K_P;
-	SBMFCoeffs_.lookup("K_I") >> K_I;
-	SBMFCoeffs_.lookup("K_D") >> K_D;
-	SBMFCoeffs_.lookup("Target") >> Target;
+	SBMFCoeffs_.lookup("Amplitude_K_P") >> Amplitude_K_P;
+	SBMFCoeffs_.lookup("Amplitude_K_I") >> Amplitude_K_I;
+	SBMFCoeffs_.lookup("Amplitude_K_D") >> Amplitude_K_D;
+	SBMFCoeffs_.lookup("Phi_K_P") >> Phi_K_P;
+	SBMFCoeffs_.lookup("Phi_K_I") >> Phi_K_I;
+	SBMFCoeffs_.lookup("Phi_K_D") >> Phi_K_D;
+	SBMFCoeffs_.lookup("Target") >> amplitude_target;
 	SBMFCoeffs_.lookup("amplitude_begin") >> amplitude_begin;
+	SBMFCoeffs_.lookup("Angle") >> angle_F_X;
 		
     omega_.reset
     (

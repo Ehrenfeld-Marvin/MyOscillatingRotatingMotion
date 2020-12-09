@@ -86,23 +86,55 @@ class TrimMotion
         
 	mutable scalar Read_Time_Intervall;		//Intervall when the amplitude is supposed to change
 	
-	mutable double Target;			//Zielwert der Force
-	mutable float K_P;			//PID Koeffizienten
-	mutable float K_I;
-	mutable float K_D;
-	mutable double IST;
-	mutable double IST_alt;
-	mutable double e_t_SUMME;
-	mutable double e_t;
-	mutable double e_t_alt;
-	mutable double y_t;
-	mutable float P;
-	mutable float I;
-	mutable float D;
+	mutable float amplitude_target;			//Zielwert der Force
+	mutable float Amplitude_K_P;			//PID Koeffizienten Amplitude
+	mutable float Amplitude_K_I;
+	mutable float Amplitude_K_D;
+	mutable double IST_AMP;
+	mutable double IST_alt_AMP;
+	mutable double e_t_SUMME_AMP;
+	mutable double e_t_AMP;
+	mutable double e_t_alt_AMP;
+	mutable double amplitude_y;
+	mutable double P_AMP;
+	mutable double I_AMP;
+	mutable double D_AMP;
+	
 	mutable float amplitude_begin;
+	
+	mutable double phi_target;
+	mutable float Phi_K_P;			//PID Koeffizienten Phasenverschiebung
+	mutable float Phi_K_I;
+	mutable float Phi_K_D;
+	mutable double IST_PHI;
+	mutable double IST_alt_PHI;
+	mutable double e_t_SUMME_PHI;
+	mutable double e_t_PHI;
+	mutable double e_t_alt_PHI;
+	mutable double phi_y;
+	mutable double P_PHI;
+	mutable double I_PHI;
+	mutable double D_PHI;
+	
+	mutable scalar angle_F_X;
+	
 
 	scalar omega_PID;
 	scalar startTime = time_.startTime().value();
+	mutable scalar Time_Intervall_Value;
+	mutable scalar Ramp_Time;
+	mutable scalar Ramp_Time_Counter;
+	mutable scalar amplitude_ramp;
+	mutable scalar phi_ramp;
+	mutable scalar phi_0;
+	mutable scalar amplitude_0;
+	mutable scalar delta_amplitude;
+	mutable scalar delta_phi;
+	mutable bool Ramp_change=false; 
+	
+	mutable scalar Amplitude_Value;
+	mutable scalar phi_Value;
+
 	
 	mutable double Force_Average_X;
 	mutable double Force_Average_Y;
@@ -112,7 +144,6 @@ class TrimMotion
 
 	mutable int I_iterator=0;
 	mutable int I_intervall=10;
-
 
 
 public:
@@ -156,20 +187,19 @@ public:
         //- Update properties from given dictionary
         virtual bool read(const dictionary& SBMFCoeffs);
         
-        vector Amplitude(scalar omega) const;
+        void Amplitude(scalar* Amplitude_Value, scalar* phi_Value) const;
         
         void writePIDdata
 	(    	
+		string FileName,
 		double Target,			
 		float K_P,			
 		float K_I,
 		float K_D,
 		double IST,
-		double IST_alt,
 		double e_t_SUMME,
 		double e_t,
-		double e_t_alt,
-		double y_t,
+		scalar y_t,
 		float P,
 		float I,
 		float D,
@@ -181,11 +211,29 @@ public:
   	
   	void Back_up_Data_PID
 	(
+		string FileName,
 		scalar time,
 		double IST_alt,
 		double e_t_SUMME,
 		double y_t
 	) const;      
+        
+        scalar PID_REGLER
+	(
+		double Target,
+		double Average,
+		float K_P,
+		float K_I,
+		float K_D,
+		double* e_t_SUMME,
+		double* IST_alt,
+		double* e_t_alt,
+		double* P_PHI,
+		double* I_PHI,
+		double* D_PHI,
+		double* IST,
+		double* e_t
+	) const;
         
 };
 
